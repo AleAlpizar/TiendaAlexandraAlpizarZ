@@ -8,7 +8,9 @@ package com.tienda.controller;
  *
  * @author 11alp
  */
+import com.tienda.domain.Categoria;
 import com.tienda.service.CategoriaService;
+import com.tienda.service.impl.FirebaseStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,9 +28,38 @@ public class CategoriaController {
 
     @GetMapping("/listado")
     public String inicio(Model model) {
-        var categorias = categoriaService.getCategorias(false);
-        model.addAttribute("categorias", categorias);
-        model.addAttribute("totalCategorias", categorias.size());
+        var Categoria = CategoriaService.getCategoria(false);
+        model.addAttribute("categorias", Categoria);
+        model.addAttribute("totalCategorias", Categorias.size());
         return "/categoria/listado";
+    }
+    @GetMapping("/nuevo")
+    public String categoriaNuevo(Categoria categoria){
+        return "/categoria/modifica";
+    }
+    @Autowired
+    private FirebaseStorageServiceImpl firebaseStorageService;
+    @PostMapping("/guardar")
+    public String categoriaGuardar(Categoria Categoria,
+            @RequestParam("imagenFile")MultipartFile imagenFile){
+        if (!imagenFile.isEmpty()){
+            CategoriaService.save(Categoria);
+            Categoria.setRutaImagen(
+                                   firebaseStorageService.cargaImagen(imagenFile,
+                                           "categoria", Categoria.getIdCategoria()));
+        }
+        categoriaService.save(Categoria);
+        return "redirect:/categoria/listado";
+    }
+    @GetMapping("/eliminar/idCategoria")
+    public String categoriaEliminar(Categoria categoria){
+        categoriaService.delete(categoria);
+        return "redirect:/categoria/listado";
+    }
+    @GetMapping("/eliminar/idCategoria")
+    public String categoriaModificar(Categoria categoria, Model model){
+        categoria = categoriaService.getCategoria(categoria);
+        model.addAttribute("categoria", categoria);
+        return "/categoria/modifica";
     }
 }
