@@ -1,21 +1,12 @@
-<html>
-    <head>
-        <title>Tienda en linea</title>
-        <meta charset="UTF-8">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/199/xhtml">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>TechShop</title>
     </head>
     <body>
-        <div>
-            <h1 style="text-align: center"> Home</h1>
-            <p>Bienvenidos a la pagina de la Tienda en linea...</p> 
-        </div>
-        
-        <p style="text-align: left">Lorem ipsum dolor sit amet consectetur adipiscing</p> 
-        <p style="text-align: right">Morbi accumsan sapien metus lacinia dictumst lag</p>
-        <p style="text-align: center">Ultricies ornare pretium libero bibendum at tor</p>
-        
-        <br>
-        <br>
-        
-        <p>Ultima linea</p>
+         <header th:replace="~{layout/plantilla :: header}"/>
+         
+         <footer th:replace="~{layout/plantilla :: footer}"/>
     </body>
 </html>
