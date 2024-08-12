@@ -44,7 +44,7 @@ public class RegistroController {
         model = registroService.crearUsuario(model, usuario);
         return "/registro/salida";
     }
-
+//http:/localhost/activacion/adchavarria/1 
     @GetMapping("/activacion/{usuario}/{id}")
     public String activar(
             Model model, 
